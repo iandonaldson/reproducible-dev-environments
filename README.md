@@ -1,4 +1,13 @@
-# Your Project (DS/LLM Reproducible Scaffold)
+# reproducible-dev-environments
+
+This README contains a **Reproducible Environment Glossary** for technologies and major patterns related to creating and mainining dev environments.  These patterns are compared and contrasted in terms of age, adoption, appropriateness, and best practice.
+
+The repository itself contains a default pattern discussed below based on the devcontainer pattern Default_datascience_devcontainer.
+
+The .github/prompt directory contains prompts that can be used to generate this default (00_Default_datascience_devcontainer) as well as alternative setup patterns.
+
+---
+# This repository - a Datascience/LLM Reproducible Scaffold
 
 Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub Codespaces** and portable to other clouds.
 
@@ -31,6 +40,80 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 * **tox**
   Automates testing in isolated virtual environments. Ensures reproducibility across Python versions and dependency sets.
   📖 [Tox docs](https://tox.wiki/en/latest/)
+
+---
+
+# 📘 Reproducible Environment Glossary
+
+### **Core Environment Managers**
+
+* **venv**
+  Built-in Python module for creating **lightweight virtual environments** with their own site-packages. Replaces the older `virtualenv`.
+  📖 [Python docs](https://docs.python.org/3/library/venv.html)
+
+* **virtualenv**
+  Third-party tool that pre-dates `venv`. Still used for backward compatibility or advanced options not in `venv`.
+  📖 [Virtualenv docs](https://virtualenv.pypa.io/en/latest/)
+
+* **conda**
+  General-purpose environment and package manager from Anaconda. Handles **Python and non-Python dependencies** (C libraries, R, CUDA). Supports environment YAML files for reproducibility.
+  📖 [Conda docs](https://docs.conda.io/en/latest/)
+
+### **Dependency & Build Specification**
+
+* **requirements.txt**
+  Flat list of dependencies (optionally with pinned versions). Standard in many projects but **does not capture build system metadata**.
+  📖 [Pip requirements](https://pip.pypa.io/en/stable/reference/requirements-file-format/)
+
+* **setup.py**
+  Traditional Python packaging entrypoint. Used by `setuptools` to define metadata and dependencies.
+  📖 [Setuptools setup.py](https://setuptools.pypa.io/en/latest/userguide/declarative_config.html)
+
+* **pyproject.toml (PEP 518)**
+  Modern build system configuration file. Declares build requirements and project metadata. Encouraged over `setup.py`.
+  📖 [PEP 518](https://peps.python.org/pep-0518/)
+  📖 [PEP 621 (project metadata in pyproject.toml)](https://peps.python.org/pep-0621/)
+
+* **PEP 517**
+  Defines a standard interface between build backends (e.g., `setuptools`, `flit`, `poetry`) and frontends (`pip`). Makes packaging system-agnostic.
+  📖 [PEP 517](https://peps.python.org/pep-0517/)
+
+* **Pipfile / Pipfile.lock (pipenv)**
+  Modern replacement for `requirements.txt`. Separates default vs. dev dependencies, with a lock file for reproducibility.
+  📖 [Pipenv docs](https://pipenv.pypa.io/en/latest/)
+
+* **poetry.lock (Poetry)**
+  Lock file created by **Poetry**, a packaging and dependency management tool that centers around `pyproject.toml`.
+  📖 [Poetry docs](https://python-poetry.org/docs/)
+
+* **tox**
+  Automates testing in isolated virtual environments. Ensures reproducibility across Python versions and dependency sets.
+  📖 [Tox docs](https://tox.wiki/en/latest/)
+
+### **Containers & System-Level**
+
+* **Docker**
+  OS-level virtualization. Packages **entire runtime environment** (Python, OS libraries, configs). The most robust for deployment reproducibility.
+  📖 [Docker docs](https://docs.docker.com/)
+
+* **.devcontainer** (VS Code Remote Containers)
+  JSON/TOML-based configs that describe how VS Code should launch a containerized development environment. Often built on Docker.
+  📖 [Dev Containers](https://containers.dev/)
+
+* **Makefile**
+  Traditional build automation tool. Frequently used in Python projects as a **thin reproducibility wrapper** (`make install`, `make test`, `make lint`).
+  📖 [GNU Make Manual](https://www.gnu.org/software/make/manual/make.html)
+
+* **Nix / NixOS**
+  Functional package manager that declares environments in a purely declarative manner. Guarantees bitwise reproducibility.
+  📖 [Nix](https://nixos.org/)
+
+* **Guix**
+  Similar to Nix, a functional package manager ensuring reproducible builds.
+  📖 [Guix](https://guix.gnu.org/)
+
+---
+
 
 ### **Containers & System-Level**
 
