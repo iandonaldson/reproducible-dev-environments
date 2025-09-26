@@ -243,31 +243,31 @@ Awesome—let’s make this concrete.
 # Flowchart: Pick a reproducible Python env pattern
 
 ```mermaid
-flowchart TD
-    A[Start: New or Existing Project?] --> B{Editor and Hosting}
-    B -->|VS Code and Codespaces| C[Use Dev Containers: .devcontainer + Dockerfile]
-    B -->|Other IDE or Local only| D[Prefer venv or Conda locally]
+graph TD
+    A[Start new or existing project] --> B{Editor and hosting}
+    B -->|VS Code and Codespaces| C[Dev Containers using devcontainer and Dockerfile]
+    B -->|Other IDE or local only| D[Use venv or Conda locally]
 
-    C --> E{Need non-Python dependencies such as CUDA, GDAL, or system libs?}
-    E -->|Yes| F[Base image with Mambaforge or Conda plus pip for wheels]
-    E -->|No| G[Base image python:3.12-slim with venv and pip or pip-tools]
+    C --> E{Need non Python dependencies}
+    E -->|Yes| F[Base image Mambaforge or Conda plus pip]
+    E -->|No| G[Base image python 3 12 slim with venv and pip]
 
-    F --> H{Do you want lockfiles?}
+    F --> H{Use lockfiles}
     G --> H
-    H -->|Yes| I[Lock with pip-tools (requirements) or Poetry]
-    H -->|No| J[Minimal venv with pyproject.toml]
+    H -->|Yes| I["Lock with pip tools or Poetry"]
+    H -->|No| J["Minimal venv with pyproject toml"]
 
-    D --> K{Scientific or ML stack or system libs?}
-    K -->|Yes| L[Conda or Mamba environment.yml with optional Docker later]
-    K -->|No| M[venv with pip or pip-tools]
+    D --> K{Scientific or ML stack or system libs}
+    K -->|Yes| L[Conda or Mamba environment yml optional Docker later]
+    K -->|No| M[venv with pip or pip tools]
 
-    I --> N[CI: tox, pre-commit, and Makefile targets]
+    I --> N["CI tox pre commit Makefile targets"]
     J --> N
     L --> N
     M --> N
 
-    N --> O{Deploy?}
-    O -->|Containerize| P[Docker build and run reusing the dev image]
+    N --> O{Deploy}
+    O -->|Containerize| P[Docker build and run reuse dev image]
     O -->|Not required| Q[Ship wheel or sdist or pinned requirements]
 
 ```
