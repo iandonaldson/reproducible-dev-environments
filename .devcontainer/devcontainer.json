@@ -4,7 +4,7 @@
   "overrideCommand": false,  
 
   "build": { 
-    "context": "../..",
+    "context": "/workspaces/reproducible-dev-environments",
     "dockerfile": ".devcontainer/Dockerfile"
   },
 
