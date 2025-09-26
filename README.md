@@ -532,6 +532,12 @@ This gives you fast Codespaces prototyping, clean dependency growth, and a strai
 5. Once the copilot finishes introducing changes, rebuild the codespace (CMD+SHIFT+P rebuild...)
 6. Run make tests as described in the README above under quickstart.
 
+---
+# Trouble-shooting
+
+If commits are failing because of missing git lfs, delete the pre-push hook:
+rm -f .git/hooks/pre-push  
+
 # Underlying discussion with ChatGPT  
 https://chatgpt.com/g/g-p-686880ff51fc8191abb5a7f341ad8353-sidehustle/c/68d68216-180c-8333-a65e-690d8b5b9551 
 
