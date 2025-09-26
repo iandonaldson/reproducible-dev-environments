@@ -184,31 +184,32 @@ Awesome—let’s make this concrete.
 
 ```mermaid
 flowchart TD
-    A[Start: New/Existing Project?] --> B{Editor & Hosting}
-    B -->|VS Code + Codespaces| C[Use Dev Containers<br/>.devcontainer + Dockerfile]
-    B -->|Other IDE / Local only| D[Prefer venv or Conda locally]
+    A[Start: New or Existing Project?] --> B{Editor and Hosting}
+    B -->|VS Code and Codespaces| C[Use Dev Containers: .devcontainer + Dockerfile]
+    B -->|Other IDE or Local only| D[Prefer venv or Conda locally]
 
-    C --> E{Non-Python deps needed? <br/>(CUDA, GDAL, system libs)}
-    E -->|Yes| F[Base image with Mambaforge/Conda <br/>+ pip for wheels]
-    E -->|No| G[Base image python:3.12-slim <br/>+ venv + pip/pip-tools]
+    C --> E{Need non-Python dependencies such as CUDA, GDAL, or system libs?}
+    E -->|Yes| F[Base image with Mambaforge or Conda plus pip for wheels]
+    E -->|No| G[Base image python:3.12-slim with venv and pip or pip-tools]
 
-    F --> H{Team wants lockfiles?}
+    F --> H{Do you want lockfiles?}
     G --> H
-    H -->|Yes| I[Lock with pip-tools<br/>(requirements*.txt) or Poetry]
-    H -->|No| J[Minimal venv + pyproject.toml]
+    H -->|Yes| I[Lock with pip-tools (requirements) or Poetry]
+    H -->|No| J[Minimal venv with pyproject.toml]
 
-    D --> K{Sci/ML stack or system libs?}
-    K -->|Yes| L[Conda/Mamba env.yml + optional Docker later]
-    K -->|No| M[venv + pip or pip-tools]
+    D --> K{Scientific or ML stack or system libs?}
+    K -->|Yes| L[Conda or Mamba environment.yml with optional Docker later]
+    K -->|No| M[venv with pip or pip-tools]
 
-    I --> N[CI: tox + pre-commit + Makefile targets]
+    I --> N[CI: tox, pre-commit, and Makefile targets]
     J --> N
     L --> N
     M --> N
 
     N --> O{Deploy?}
-    O -->|Containerize| P[Docker build & run <br/>same dev image]
-    O -->|Not required| Q[Ship wheel/sdist or pin reqs]
+    O -->|Containerize| P[Docker build and run reusing the dev image]
+    O -->|Not required| Q[Ship wheel or sdist or pinned requirements]
+
 ```
 
 ---
