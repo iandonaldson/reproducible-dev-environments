@@ -25,7 +25,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --upgrade pip wheel setuptools && pip install pip-tools
 
 # Copy minimal requirement sources first for better Docker layer caching
-COPY requirements.in requirements-dev.in ./
+# COPY requirements.in requirements-dev.in ./
 
 # Compile lock files and install (will be re-run by Makefile as needed)
 RUN pip-compile requirements.in -o ../requirements.txt && \

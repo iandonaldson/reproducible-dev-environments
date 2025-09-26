@@ -4,7 +4,6 @@
   "overrideCommand": false,  
 
   "build": { 
-    "context": ".",
     "dockerfile": "Dockerfile"
   },
 
