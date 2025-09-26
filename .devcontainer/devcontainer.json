@@ -31,10 +31,3 @@
 }
 
 
-// notes
-// "remoteUser": "vscode" and "overrideCommand": false were used to prevent issues with pre-commit install
-// "context": ".." allows for the Dockerfile to find the requirements.* files in the parent directory but note the relative path for Dockerfile that is now required
-//
-// additional references
-// https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/setting-up-your-python-project-for-codespaces
-// https://containers.dev/guide/dockerfile 
