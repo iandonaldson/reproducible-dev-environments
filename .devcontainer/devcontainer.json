@@ -1,6 +1,9 @@
 {
   "name": "py-ds-llm-env",
-  "build": { "dockerfile": "Dockerfile" },
+  "build": { 
+    "dockerfile": "Dockerfile",
+    "context": ".."             // Use the parent folder as build context!!
+  },
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {},
     "ghcr.io/devcontainers/features/git:1": {},
