@@ -28,9 +28,9 @@ RUN pip install --upgrade pip wheel setuptools && pip install pip-tools
 COPY requirements.in requirements-dev.in ./
 
 # Compile lock files and install (will be re-run by Makefile as needed)
-RUN pip-compile requirements.in -o requirements.txt && \
-    pip-compile requirements-dev.in -o requirements-dev.txt && \
-    pip install -r requirements.txt -r requirements-dev.txt
+RUN pip-compile requirements.in -o ../requirements.txt && \
+    pip-compile requirements-dev.in -o ../requirements-dev.txt && \
+    pip install -r ../requirements.txt -r ../requirements-dev.txt
 
 # Copy the rest of the project
 COPY . .
