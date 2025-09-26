@@ -6,6 +6,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev libffi-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
+# (Optional) git-lfs for models/datasets
+# RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+#     apt-get update && apt-get install -y git-lfs && git lfs install && \
+#     rm -rf /var/lib/apt/lists/*
+
 WORKDIR /workspace
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
