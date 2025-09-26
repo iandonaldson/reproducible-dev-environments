@@ -5,8 +5,8 @@ PIP := $(VENV_BIN)/pip
 
 bootstrap:
 	$(PIP) install --upgrade pip wheel setuptools pip-tools
-	pip-compile ./.devcontainerrequirements.in -o requirements.txt
-	pip-compile ./.devcontainer/requirements-dev.in -o requirements-dev.txt
+	pip-compile .devcontainerrequirements.in -o requirements.txt
+	pip-compile .devcontainer/requirements-dev.in -o requirements-dev.txt
 	$(PIP) install -r requirements.txt -r requirements-dev.txt
 	pre-commit install
 

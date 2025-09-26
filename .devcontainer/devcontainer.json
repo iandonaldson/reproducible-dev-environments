@@ -2,9 +2,12 @@
   "name": "py-ds-llm-env",
   "remoteUser": "vscode",       
   "overrideCommand": false,  
+  "containerEnv": { "PATH": "/opt/venv/bin:${PATH}" }
+
 
   "build": { 
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "context": "."
   },
 
   "features": {
