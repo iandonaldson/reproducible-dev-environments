@@ -4,8 +4,8 @@
   "overrideCommand": false,  
 
   "build": { 
-    "context": "..",
-    "dockerfile": "Dockerfile"
+    "context": "../..",
+    "dockerfile": ".devcontainer/Dockerfile"
   },
 
   "features": {
