@@ -1,3 +1,6 @@
+---
+mode: agent
+---
 # GitHub Copilot Prompt: Scaffold a Reproducible Python DS/LLM Environment (Codespaces + Dev Container + venv + pip-tools)
 
 > **Objective:** Generate a complete, working scaffold for a Python data‑science/LLM project that runs reproducibly in **GitHub Codespaces** using a **Dev Container** (Dockerfile) with a project‑local **venv**, **pip‑tools** locking, and a **Makefile**. Provide minimal **tests** so `make test` passes on first run.

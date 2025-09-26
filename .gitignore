@@ -144,6 +144,27 @@ ENV/
 env.bak/
 venv.bak/
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.coverage
+.pytest_cache/
+.mypy_cache/
+
+# Tools
+.coverage
+htmlcov/
+
+# Lock files (generated)
+requirements.txt
+requirements-dev.txt
+
+# VS Code / Devcontainers
+.vscode/
+.devcontainer/.cache/
+
 # Spyder project settings
 .spyderproject
 .spyproject

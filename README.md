@@ -1,44 +1,21 @@
-# reproducible-dev-environments
+# Your Project (DS/LLM Reproducible Scaffold)
 
-This README contains a **Reproducible Environment Glossary** for technologies and major patterns related to creating and mainining dev environments.  These patterns are compared and contrasted in terms of age, adoption, appropriateness, and best practice.
+Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub Codespaces** and portable to other clouds.
 
-The repository itself contains a default pattern discussed below based on the devcontainer pattern Default_datascience_devcontainer.
+## Quickstart (Codespaces)
 
-The .copilot directory contains prompts that can be used to generate this default (Prompt_01_Default_datascience_devcontainer) as well as alternative setup patterns.
+1. Open in Codespaces; the Dev Container builds automatically.
+2. Dependencies are compiled & installed via `make bootstrap` (triggered by `postCreateCommand`).
+3. Run tests: `make test`
+4. Lint & type-check: `make lint`
+5. Start API: `make run` then open <http://localhost:8000/healthz>
 
----
+## Dependency Workflow
 
-# 📘 Reproducible Environment Glossary
-
-### **Core Environment Managers**
-
-* **venv**
-  Built-in Python module for creating **lightweight virtual environments** with their own site-packages. Replaces the older `virtualenv`.
-  📖 [Python docs](https://docs.python.org/3/library/venv.html)
-
-* **virtualenv**
-  Third-party tool that pre-dates `venv`. Still used for backward compatibility or advanced options not in `venv`.
-  📖 [Virtualenv docs](https://virtualenv.pypa.io/en/latest/)
-
-* **conda**
-  General-purpose environment and package manager from Anaconda. Handles **Python and non-Python dependencies** (C libraries, R, CUDA). Supports environment YAML files for reproducibility.
-  📖 [Conda docs](https://docs.conda.io/en/latest/)
-
-### **Dependency & Build Specification**
-
-* **requirements.txt**
-  Flat list of dependencies (optionally with pinned versions). Standard in many projects but **does not capture build system metadata**.
-  📖 [Pip requirements](https://pip.pypa.io/en/stable/reference/requirements-file-format/)
-
-* **setup.py**
-  Traditional Python packaging entrypoint. Used by `setuptools` to define metadata and dependencies.
-  📖 [Setuptools setup.py](https://setuptools.pypa.io/en/latest/userguide/declarative_config.html)
-
-* **pyproject.toml (PEP 518)**
-  Modern build system configuration file. Declares build requirements and project metadata. Encouraged over `setup.py`.
-  📖 [PEP 518](https://peps.python.org/pep-0518/)
-  📖 [PEP 621 (project metadata in pyproject.toml)](https://peps.python.org/pep-0621/)
-
+- Add a dependency to `requirements.in` (or `requirements-dev.in`).
+- Rebuild lock files: `make lock`
+- Sync the environment: `make sync`
+- Commit: `requirements.in`, `requirements-dev.in`, lock files (optional), and all source files.
 * **PEP 517**
   Defines a standard interface between build backends (e.g., `setuptools`, `flit`, `poetry`) and frontends (`pip`). Makes packaging system-agnostic.
   📖 [PEP 517](https://peps.python.org/pep-0517/)

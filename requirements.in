@@ -1,0 +1,7 @@
+# Runtime deps (examples suitable for DS/LLM scaffolds)
+fastapi
+uvicorn
+httpx
+pydantic
+numpy
+pandas
