@@ -525,6 +525,13 @@ This gives you fast Codespaces prototyping, clean dependency growth, and a strai
 
 # How to use the co-pilot prompt files
 
+1. In the repo main page, click on Code(green button)/Codespaces/Create codespace on main
+2. In the chat window type /
+3. You will be prompted with a selection of prompt files in .github/prompts
+4. Select one and press return
+5. Once the copilot finishes introducing changes, rebuild the codespace (CMD+SHIFT+P rebuild...)
+6. Run make tests as described in the README above under quickstart.
+
 # Underlying discussion with ChatGPT  
 https://chatgpt.com/g/g-p-686880ff51fc8191abb5a7f341ad8353-sidehustle/c/68d68216-180c-8333-a65e-690d8b5b9551 
 
