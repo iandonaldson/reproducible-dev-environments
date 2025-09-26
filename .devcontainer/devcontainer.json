@@ -1,5 +1,11 @@
 {
   "name": "py-ds-llm-env",
+  "remoteUser": "vscode",       // to prevent issues with pre-commit install
+  "overrideCommand": false,     // 
+  // ${containerWorkspaceFolder} is a portable variable github provides
+  // setting the containerEnv PYTHONPATH ensures all modules in src
+  // can be seen
+  "containerEnv": { "PYTHONPATH": "${containerWorkspaceFolder}/src" },
   "build": { 
     "dockerfile": "Dockerfile",
     "context": ".."             // Use the parent folder as build context!!
