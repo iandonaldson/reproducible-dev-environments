@@ -345,35 +345,37 @@ Alternatively, the .copilot directory contains a copilot prompt that can be used
 ```dockerfile
 FROM python:3.12-slim
 
-# System libs often needed by DS/LLM projects
+# System libs commonly needed by DS/LLM projects
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential git curl ca-certificates \
     libssl-dev libffi-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# (Optional) git-lfs for models/datasets
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get update && apt-get install -y git-lfs && git lfs install && \
-    rm -rf /var/lib/apt/lists/*
+# (Optional) git-lfs (large-file support) for models/datasets - keep Dockerimage small until needed
+# RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+#    apt-get update && apt-get install -y git-lfs && git lfs install && \
+#    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
-
-# Create a project-local venv (inside container)
+    
+# Create an isolated venv inside the container
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Upgrade pip + install build tooling + pip-tools
-RUN pip install --upgrade pip wheel setuptools && pip install pip-tools
+# note the explicit path to the venv
+RUN /opt/venv/bin/pip install --upgrade pip wheel setuptools pip-tools
 
-COPY requirements.in requirements-dev.in ./ 
-RUN pip-compile requirements.in -o requirements.txt && \
-    pip-compile requirements-dev.in -o requirements-dev.txt && \
-    pip install -r requirements.txt -r requirements-dev.txt
-
-COPY . .
+# Compile lock files and install will be run by Makefile (make bootstrap)
+# as part of the postCreateCommand.  
+# This Dockerfile is only used to construct the base image during development.
+# Additional dependencies can be added during development using 
+# requirements.in.txt, requirements-dev.in.txt (this directory) and then
+# make lock && make sync.
+# For production, construct a new Dockerfile based of the final configuration.
 ```
 
 > **Need heavy native deps?** Start from `mambaorg/micromamba:1.5.8` (or `mambaforge`) and create an `environment.yml` with system libs; still use `pip-tools` for Python packages when possible for speed.
@@ -492,7 +494,8 @@ repos:
 
 ## Moving to Azure/GCP later
 
-* **Codespaces → Cloud**: The same Dockerfile builds on ACR/GCR and runs on Azure Container Apps, AKS, Cloud Run, or GKE.
+* **Codespaces → Cloud**: The Dockerfile above is primarily for the development base (fast iteration) and keeps addition of libraries in a separate step.
+  For production, a multi-stage build or a separate, minimal Dockerfile would be constructed that already includes the pip-compile and pip install steps in the image build for efficiency.
 * **Secrets**: Keep providers in `.env` and mount with cloud secret managers (Azure Key Vault, GCP Secret Manager).
 * **Data**: Add optional service compose (Postgres, Redis, Milvus/Chroma) with `docker-compose.yml` for local dev; mirror with managed services in cloud.
 
