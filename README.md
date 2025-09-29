@@ -9,11 +9,11 @@ The .github/prompt directory contains prompts that can be used to generate this 
 ---
 # This repository - a Datascience/LLM Reproducible Scaffold
 
-Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub Codespaces** and portable to other clouds.
+Reproducible dev via **devcontainer + venv + pip-tools**. Designed for **GitHub Codespaces** and portable to other clouds.
 
 ## Quickstart (Codespaces)
 
-1. Open in Codespaces; the Dev Container builds automatically.
+1. Open in Codespaces; the devcontainer builds automatically.
 2. Dependencies are compiled & installed via `make bootstrap` (triggered by `postCreateCommand`).
 3. Run tests: `make test`
 4. Lint & type-check: `make lint`
@@ -24,22 +24,9 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 - Add a dependency to `requirements.in` (or `requirements-dev.in`).
 - Rebuild lock files: `make lock`
 - Sync the environment: `make sync`
-- Commit: `requirements.in`, `requirements-dev.in`, lock files (optional), and all source files.
-* **PEP 517**
-  Defines a standard interface between build backends (e.g., `setuptools`, `flit`, `poetry`) and frontends (`pip`). Makes packaging system-agnostic.
-  📖 [PEP 517](https://peps.python.org/pep-0517/)
+- Commit: `requirements.in`, `requirements-dev.in`, and then the lock files that get made by `make lock` (requirements.txt and requirements-dev.txt) once they have been validated.
+- This makes a determinative build for the next person checking out your code and trying to reproduce your work.
 
-* **Pipfile / Pipfile.lock (pipenv)**
-  Modern replacement for `requirements.txt`. Separates default vs. dev dependencies, with a lock file for reproducibility.
-  📖 [Pipenv docs](https://pipenv.pypa.io/en/latest/)
-
-* **poetry.lock (Poetry)**
-  Lock file created by **Poetry**, a packaging and dependency management tool that centers around `pyproject.toml`.
-  📖 [Poetry docs](https://python-poetry.org/docs/)
-
-* **tox**
-  Automates testing in isolated virtual environments. Ensures reproducibility across Python versions and dependency sets.
-  📖 [Tox docs](https://tox.wiki/en/latest/)
 
 ---
 
@@ -58,6 +45,11 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 * **conda**
   General-purpose environment and package manager from Anaconda. Handles **Python and non-Python dependencies** (C libraries, R, CUDA). Supports environment YAML files for reproducibility.
   📖 [Conda docs](https://docs.conda.io/en/latest/)
+
+* **mamba**
+  Mamba is a faster, re-implemented, drop-in replacement for the Conda package solver. Mambaforge is a distribution that bundles Mamba. See also [MiniForge](https://github.com/conda-forge/miniforge).
+
+
 
 ### **Dependency & Build Specification**
 
@@ -78,14 +70,26 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
   Defines a standard interface between build backends (e.g., `setuptools`, `flit`, `poetry`) and frontends (`pip`). Makes packaging system-agnostic.
   📖 [PEP 517](https://peps.python.org/pep-0517/)
 
+
+---
+
 * **Pipfile / Pipfile.lock (pipenv)**
-  Modern replacement for `requirements.txt`. Separates default vs. dev dependencies, with a lock file for reproducibility.
-  📖 [Pipenv docs](https://pipenv.pypa.io/en/latest/)
+  Modern replacement for `requirements.txt`. Separates default vs. dev dependencies, with a lock file for reproducibility.  
+  📖 [Pipenv docs](https://pipenv.pypa.io/en/latest/)  
+  A negative characteristic of the original `requirements.txt` pattern is that it cannot capture the full dependency graph
+  (i.e., transitive dependencies are often missing or unpinned) without a tool like pip-tools or pip freeze at a specific
+  moment, making it inherently non-deterministic on its own.  
+  Currently, `requirements.txt` is often the output of a lock-file tool like pip-tools (as used in the default pattern)
+  or Poetry, where it contains pinned, transitive dependencies, which is reproducible.  
 
 * **poetry.lock (Poetry)**
   Lock file created by **Poetry**, a packaging and dependency management tool that centers around `pyproject.toml`.
   📖 [Poetry docs](https://python-poetry.org/docs/)
 
+* **Hatch**
+  Hatch is a modern, full-featured project manager (like Poetry, but distinct) that centers around pyproject.toml and PEP 621.
+  It's gaining significant traction and is a strong alternative to Poetry and the pip-tools pattern.  
+  
 * **tox**
   Automates testing in isolated virtual environments. Ensures reproducibility across Python versions and dependency sets.
   📖 [Tox docs](https://tox.wiki/en/latest/)
@@ -98,14 +102,16 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 
 * **.devcontainer** (VS Code Remote Containers)
   JSON/TOML-based configs that describe how VS Code should launch a containerized development environment. Often built on Docker.
-  📖 [Dev Containers](https://containers.dev/)
+  📖 [devcontainers](https://containers.dev/)
 
 * **Makefile**
   Traditional build automation tool. Frequently used in Python projects as a **thin reproducibility wrapper** (`make install`, `make test`, `make lint`).
   📖 [GNU Make Manual](https://www.gnu.org/software/make/manual/make.html)
 
 * **Nix / NixOS**
-  Functional package manager that declares environments in a purely declarative manner. Guarantees bitwise reproducibility.
+  Functional package manager that declares environments in a purely declarative manner. Guarantees bitwise reproducibility for the package build 
+  process itself (known as a "hermetic build") and for the entire declared environment. This is a higher bar for reproducibility than Docker's,
+  which relies on a layered file system approach.
   📖 [Nix](https://nixos.org/)
 
 * **Guix**
@@ -123,7 +129,7 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 
 * **.devcontainer** (VS Code Remote Containers)
   JSON/TOML-based configs that describe how VS Code should launch a containerized development environment. Often built on Docker.
-  📖 [Dev Containers](https://containers.dev/)
+  📖 [devcontainers](https://containers.dev/)
 
 * **Makefile**
   Traditional build automation tool. Frequently used in Python projects as a **thin reproducibility wrapper** (`make install`, `make test`, `make lint`).
@@ -168,6 +174,7 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 * Pros: Future-proof, encourages ecosystem unification
 * Cons: Not all legacy tools support
 * Status: **Modern standard — recommended**
+* PEPs 517, 518, and 621 are foundational to modern Python packaging and are replacing or augmenting the old setup.py and requirements.txt workflows.
 
 ---
 
@@ -215,6 +222,7 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 | **.devcontainer**            | Dev environment     | VS Code teams                    | 2019+  | Growing fast                        |
 | **Nix/Guix**                 | System-level        | Max reproducibility              | 2000s+ | Niche                               |
 
+`venv` is the standard, built-in solution and `virtualenv` is mainly for legacy projects or when needing specific features like Python 2 support (which is now mostly irrelevant).
 ---
 
 # 🌐 External References & Reviews
@@ -237,8 +245,6 @@ Reproducible dev via **Dev Container + venv + pip-tools**. Designed for **GitHub
 * For **maximal reproducibility** → Nix/Guix (cutting edge, niche).
 
 ---
-
-Awesome—let’s make this concrete.
 
 # Flowchart: Pick a reproducible Python env pattern
 
@@ -298,6 +304,9 @@ Alternatively, the .copilot directory contains a copilot prompt that can be used
 * **Dockerfile base image**: pin OS + Python; easy to add system libs (e.g., `libpq`, `build-essential`, `git-lfs`).
 * **venv (built-in)**: simple, reliable, no extra tool learning curve.
 * **pip-tools (`requirements.in` → compiled `requirements.txt`)**: fast, transparent upgrades; perfect for “grow dependencies safely.”
+* **pip-tools** uses the commands `pip-compile` (to generate the lock files, requirements.txt and requirements-dev.txt) and
+  `pip-sync` (to install/update/remove packages to exactly match those lock files). Notice the `pip-compile` and `pip-sync` calls
+  in the 'Dependency Workflow' section.
 * **Conda/Mambaforge optional**: swap base image when you need CUDA/GDAL/etc.; still install most Python deps with `pip` to keep it snappy.
 * **Makefile**: single commands for bootstrap, test, lint, lock, update.
 * **PEP 621 `pyproject.toml`**: future-proof metadata; build wheels later if you want.
@@ -446,6 +455,10 @@ authors = [{ name = "Ian Donaldson" }]
 
 [tool.ruff]
 line-length = 100
+
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
 ```
 
 **.pre-commit-config.yaml** (fast feedback)
@@ -469,11 +482,11 @@ repos:
 
 ### Daily workflow in Codespaces
 
-1. Open repo in Codespaces → container builds automatically.
-2. `make sync` when you edit `requirements*.txt`.
-3. Add a new lib? Append to `requirements.in` → `make lock` → `make sync`.
-4. Run tests/lint: `make test` / `make lint`.
-5. Freeze a reproducible snapshot: commit Dockerfile, `.devcontainer`, `requirements*.txt`.
+1. Open repo in Codespaces → container builds automatically based on the most recent requirements.txt and requirements-dev.txt in the root directory.
+2. During development, additional requirements can be added to requirements.in.txt and requirements-dev.in.txt 
+3. Run `make lock` and `make sync` when you edit `requirements.in.txt` and/or `requirements-dev.in.txt`.
+5. Run tests/lint: `make test` / `make lint`.
+6. Freeze a reproducible snapshot: commit Dockerfile, `.devcontainer`, `requirements*.txt`.
 
 ---
 
