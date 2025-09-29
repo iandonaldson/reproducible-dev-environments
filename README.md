@@ -383,20 +383,25 @@ RUN /opt/venv/bin/pip install --upgrade pip wheel setuptools pip-tools
 **requirements.in** (top-level deps you manage)
 
 ```txt
-# Runtime deps (examples)
-numpy
-pandas
-polars
-sqlalchemy
-psycopg[binary]
-httpx
-pydantic
+# Runtime deps (just for base case)
 fastapi
 uvicorn
-openai
-langchain
-chromadb
-# add: llama-index / ragstack / datasets / transformers / torch as needed
+httpx
+pydantic
+numpy
+pandas
+# add as needed
+# polars
+# sqlalchemy
+# psycopg[binary]
+# openai
+# langchain
+# chromadb
+# llama-index
+# ragstack
+# datasets
+# transformers
+# torch
 ```
 
 **requirements-dev.in**
