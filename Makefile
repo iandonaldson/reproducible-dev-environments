@@ -2,20 +2,21 @@ SHELL := /bin/bash
 VENV_BIN := /opt/venv/bin
 PY := $(VENV_BIN)/python
 PIP := $(VENV_BIN)/pip
+PIP_COMPILE := $(VENV_BIN)/pip-compile
+PIP_SYNC := $(VENV_BIN)/pip-sync
 
 bootstrap:
-	$(PIP) install --upgrade pip wheel setuptools pip-tools
-	pip-compile .devcontainerrequirements.in -o requirements.txt
-	pip-compile .devcontainer/requirements-dev.in -o requirements-dev.txt
+	$(PIP_COMPILE) ./.devcontainer/requirements.in -o requirements.txt
+	$(PIP_COMPILE) ./.devcontainer/requirements-dev.in -o requirements-dev.txt
 	$(PIP) install -r requirements.txt -r requirements-dev.txt
 	pre-commit install
 
 lock:
-	pip-compile ./.devcontainer/requirements.in      -o requirements.txt
-	pip-compile ./.devcontainer/requirements-dev.in  -o requirements-dev.txt
+	$(PIP_COMPILE) ./.devcontainer/requirements.in      -o requirements.txt
+	$(PIP_COMPILE) ./.devcontainer/requirements-dev.in  -o requirements-dev.txt
 
 sync:
-	pip-sync requirements.txt requirements-dev.txt
+	$(PIP_SYNC) requirements.txt requirements-dev.txt
 
 test:
 	pytest
