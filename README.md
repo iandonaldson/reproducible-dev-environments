@@ -480,14 +480,16 @@ repos:
     hooks:
       - id: ruff
         args: [--fix]
-  - repo: https://github.com/psf/black
-    rev: 24.8.0
-    hooks:
-      - id: black
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.10.0
     hooks:
       - id: mypy
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0 # or latest stable
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
 ```
 
 ### Daily workflow in Codespaces
