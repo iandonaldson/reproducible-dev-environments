@@ -19,7 +19,7 @@ sync:
 	$(PIP_SYNC) requirements.txt requirements-dev.txt
 
 test:
-	pytest
+	PYTHONPATH=. pytest
 
 lint:
 	ruff check .
