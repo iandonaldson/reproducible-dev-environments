@@ -25,10 +25,6 @@ ENV PATH="/opt/venv/bin:$PATH"
 # (pip 25+ changes internal APIs that some pip-tools releases are not yet compatible with)
 RUN /opt/venv/bin/pip install --upgrade pip==23.2.1 wheel setuptools pip-tools
 
-# Upgrade pip + install build tooling + pip-tools
-# note the explicit path to the venv
-RUN /opt/venv/bin/pip install --upgrade pip wheel setuptools pip-tools
-
 # Compile lock files and install will be run by Makefile (make bootstrap)
 # as part of the postCreateCommand.  
 # This Dockerfile is only used to construct the base image during development.
